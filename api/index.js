@@ -5,11 +5,19 @@ const { default: mongoose } = require("mongoose");
 const User = require("./models/User");
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const imageDownloader = require("image-downloader");
+const multer = require("multer");
+const fs = require("fs")
 
 const bcryptSalt = bcrypt.genSaltSync(10);
+const jwtSecret = "ohmymy";
 
 app.use(express.json()); //json parse karava mate
+app.use(cookieParser()); //express ma cokkie read karava mate aa jaruri 6e
+// console.log(__dirname+'/uploads');
+app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     //cors ni error no ave etale
@@ -46,7 +54,20 @@ app.post("/login", async (req, res) => {
   if (userDoc) {
     const passOk = bcrypt.compareSync(password, userDoc.password);
     if (passOk) {
-      res.json("password ok");
+      jwt.sign(
+        { email: userDoc.email, id: userDoc._id },
+        jwtSecret,
+        {},
+        (err, token) => {
+          if (err) throw err;
+          res
+            .cookie("token", token, {
+              expires: new Date(Date.now() + 86400000),
+              httpOnly: true,
+            })
+            .json(userDoc);
+        }
+      );
     } else {
       res.status(422).json("Password not ok");
     }
@@ -54,4 +75,49 @@ app.post("/login", async (req, res) => {
     res.json("not found");
   }
 });
+
+app.get("/profile", (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      const { name, email, _id } = await User.findById(userData.id);
+      res.json({ name, email, _id });
+    });
+  } else {
+    res.json(null);
+  }
+});
+
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json(true);
+});
+
+app.post("/upload-by-link", async (req, res) => {
+  const { link } = req.body;
+  const newName = "Photo" + Date.now() + ".jpg";
+  await imageDownloader.image({
+    url: link,
+    dest: __dirname + "\\uploads\\" + newName, //__dirname tame je directory ma 6e teno path ape
+  });
+  res.json(newName);
+});
+
+const photosMiddleware = multer({ dest: "uploads/" });
+app.post("/upload", photosMiddleware.array("photos", 100), (req, res) => {
+  const uploadedFiles = [];
+  for(let i=0;i<req.files.length ; i++)
+  {
+    const {path,originalname} = req.files[i]
+    const parts = originalname.split('.');
+    const ext = parts[parts.length-1];
+    const newPath = path + "." + ext;
+    fs.renameSync(path,newPath)
+    uploadedFiles.push(newPath.replace('uploads\\',''));
+  }
+  res.json(uploadedFiles)
+});
+
+
+
 app.listen(4000);

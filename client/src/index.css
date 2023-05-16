@@ -2,15 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    font-family: "Wix Madefor Text", sans-serif;
+    font-weight: 600
+  }
 
-input[type="text"],input[type="password"],input[type="email"]{
+input[type="text"],input[type="password"],input[type="email"],textarea,input[type="number"]{
     @apply w-full border my-2 py-2 px-3 rounded-2xl
 }
+
+
 
 button{
     @apply bg-gray-300 ;
 }
 
+
 button.primary{
     @apply bg-primary w-full p-2 rounded-2xl text-white my-2;
 }
+
