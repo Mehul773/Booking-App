@@ -97,8 +97,8 @@ export default function AccountPage() {
       </nav>
       {subpage === "profile" && (
         <div className="text-center">
-          Logged in as {user.name} {user.email}
-          <button onClick={logout} className="primary max-w-md">
+          Logged in as {user.name}  {user.email}<br></br>
+          <button onClick={logout} className="primary max-w-md ">
             Logout
           </button>
         </div>
