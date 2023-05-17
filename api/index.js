@@ -144,7 +144,7 @@ app.post("/places", (req, res) => {
       title,
       address,
       photos:addedPhotos,
-      description,
+      descreption:description,
       perks,
       extraInfo,
       checkIn,
@@ -154,5 +154,20 @@ app.post("/places", (req, res) => {
     res.json(placeDoc)
   });
 });
+
+
+app.get("/places",(req,res)=>{
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const {id} = userData;
+    res.json(await Place.find({owner:id}));
+  });
+})
+
+app.get("/places/:id",async(req,res)=>{
+  const {id} = req.params;
+  res.json(await Place.findById(id));  
+})
 
 app.listen(4000);
