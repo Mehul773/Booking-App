@@ -12,7 +12,7 @@ export default function AccountNav() {
 
   function linkClasses(type = null) {
    
-    let classes = "py-2 px-10 flex gap-3";
+    let classes = "py-2 px-10 flex gap-3 items-center";
     if (type === subpage) {
       classes += " bg-primary rounded-full text-white";
     } else {
@@ -23,7 +23,7 @@ export default function AccountNav() {
 
   return (
     <>
-      <nav className="w-full flex m-8 justify-center gap-7">
+      <nav className="w-full flex m-8 justify-center gap-7 ">
         <Link className={linkClasses("profile")} to={"/account"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ export default function AccountNav() {
           </svg>
           My account
         </Link>
-        <Link className={linkClasses("bookings")} to={"/account/bookings"}>
+        <Link className={linkClasses("bookings")} to={"/account/booking"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

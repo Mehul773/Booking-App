@@ -11,6 +11,8 @@ const imageDownloader = require("image-downloader");
 const multer = require("multer");
 const fs = require("fs");
 const Place = require("./models/Place");
+const Booking = require("./models/Booking");
+const { resolve } = require("path");
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "ohmymy";
@@ -72,7 +74,7 @@ app.post("/login", async (req, res) => {
         }
       );
     } else {
-      res.status(422).json("Password not ok");
+      return res.status(422).json("Password not ok");
     }
   } else {
     res.json("not found");
@@ -136,6 +138,7 @@ app.post("/places", (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -143,31 +146,111 @@ app.post("/places", (req, res) => {
       owner: userData.id,
       title,
       address,
-      photos:addedPhotos,
-      descreption:description,
+      photos: addedPhotos,
+      descreption: description,
       perks,
       extraInfo,
       checkIn,
       checkOut,
       maxGuests,
+      price,
     });
-    res.json(placeDoc)
+    res.json(placeDoc);
   });
 });
 
-
-app.get("/places",(req,res)=>{
+app.get("/places", (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
-    const {id} = userData;
-    res.json(await Place.find({owner:id}));
+    const { id } = userData;
+    res.json(await Place.find({ owner: id }));
   });
-})
+});
 
-app.get("/places/:id",async(req,res)=>{
-  const {id} = req.params;
-  res.json(await Place.findById(id));  
-})
+app.get("/places/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Place.findById(id));
+});
+
+app.put("/places", (req, res) => {
+  const { token } = req.cookies;
+  const {
+    id,
+    title,
+    address,
+    addedPhotos,
+    description,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+    price,
+  } = req.body;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const placeDoc = await Place.findById(id); //je place no owner hoi te
+
+    if (userData.id === placeDoc.owner.toString()) {
+      placeDoc.set({
+        title,
+        address,
+        photos: addedPhotos,
+        descreption: description,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+        price,
+      });
+      await placeDoc.save();
+      res.json("ok");
+    }
+  });
+});
+
+app.get("/all-places", async (req, res) => {
+  res.json(await Place.find());
+});
+
+app.post("/booking", async (req, res) => {
+  const userData = await getUserDataFromReq(req);
+  const { place, checkIn, checkOut, guest, name, mobile, price } = req.body;
+  if (!place || !checkIn || !checkOut || !guest || !name || !mobile) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  Booking.create({
+    place,
+    checkIn,
+    checkOut,
+    guest,
+    name,
+    mobile,
+    price,
+    user: userData.id,
+  })
+    .then((doc) => {
+      res.json(doc);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+function getUserDataFromReq(req) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      resolve(userData);
+    });
+  });
+}
+
+app.get("/booking", async (req, res) => {
+  const userData = await getUserDataFromReq(req);
+  res.json(await Booking.find({ user: userData.id }));
+});
 
 app.listen(4000);

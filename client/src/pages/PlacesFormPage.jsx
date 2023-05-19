@@ -1,4 +1,4 @@
-import { Navigate,useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import AccountNav from "../AccountNav";
 import Perks from "../Perks";
 import PhotosUploader from "../PhotosUpload";
@@ -16,17 +16,16 @@ export default function PlacesFormPage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
-  const [redirect,setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+  const[price,setPrice] = useState("");
 
-  const {id} = useParams();
-  console.log({id});
-  useEffect(()=>{
-    if(!id)
-    {
+  const { id } = useParams();
+  useEffect(() => {
+    if (!id) {
       return;
     }
-    axios.get('/places/'+id).then(res=>{
-      const {data} = res;
+    axios.get("/places/" + id).then((res) => {
+      const { data } = res;
       setTitle(data.title);
       setAddress(data.address);
       setAddedPhotos(data.photos);
@@ -36,15 +35,15 @@ export default function PlacesFormPage() {
       setCheckIn(data.checkIn);
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
+      setPrice(data.price);
     });
-  },[id])
+  }, [id]);
 
   function inputHeader(text) {
     return <h2 className="text-xl mt-4">{text}</h2>;
   }
 
-
-  async function addNewPlace(ev) {
+  async function savePlace(ev) {
     ev.preventDefault(); //cancels the event if it is cancelable
     const placeData = {
       title,
@@ -56,23 +55,30 @@ export default function PlacesFormPage() {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     };
+    if (id) {
+      //Update
+      await axios.put("/places", {id,...placeData});
+      setRedirect(true);
+    } else {
+      //new place
 
-    await axios.post("/places", placeData);
-    setRedirect(true);
-   
+      await axios.post("/places", placeData);
+      setRedirect(true);
+    }
   }
-  if(redirect)
-  {
-    return  <Navigate to={'/account/places'} />
+  if (redirect) {
+    return <Navigate to={"/account/places"} />;
   }
 
   return (
     <>
-    <AccountNav/>
-      <div className="font-bold mx-10">
-        <form className="mx-4" onSubmit={addNewPlace}>
+      <AccountNav />
+      <div className="font-bold ">
+        <form className="mx-4" onSubmit={savePlace}>
           {inputHeader("Title")}
+
           <input
             type="text"
             value={title}
@@ -112,7 +118,7 @@ export default function PlacesFormPage() {
             onChange={(event) => setExtraInfo(event.target.value)}
             className="h-40"
           />
-          <div className="grid sm:grid-cols-3 gap-2">
+          <div className="grid sm:grid-cols-2 gap-2">
             <div>
               <h3 className="mt-2 -mb-1">Check in time</h3>
               <input
@@ -139,6 +145,16 @@ export default function PlacesFormPage() {
                 value={maxGuests}
                 onChange={(event) => setMaxGuests(event.target.value)}
                 placeholder="Enter maximum guest allowed"
+              />
+            </div>
+            <div>
+              <h3 className="mt-2 -mb-1">Price per night</h3>
+
+              <input
+                type="number"
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}
+                placeholder="Enter Price"
               />
             </div>
           </div>
