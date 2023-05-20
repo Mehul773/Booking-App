@@ -12,10 +12,10 @@ export default function PlaceDetails() {
   const [guest, setGuest] = useState(1);
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
-  const[redirect,setRedirect] = useState('');
+  const [redirect, setRedirect] = useState("");
   const [showAllPhotos, setShowAllPhotos] = useState(false);
   const { id } = useParams();
- 
+
   useEffect(() => {
     if (!id) {
       return;
@@ -41,9 +41,8 @@ export default function PlaceDetails() {
     setRedirect(`/account/booking/`);
   }
 
-  if(redirect)
-  {
-    return <Navigate to={redirect}/>
+  if (redirect) {
+    return <Navigate to={redirect} />;
   }
 
   let numberOfDays = 0;
@@ -53,7 +52,6 @@ export default function PlaceDetails() {
       new Date(checkIn)
     );
   }
-
 
   if (!place) return "";
 
@@ -102,202 +100,215 @@ export default function PlaceDetails() {
   return (
     <>
       <div className="mx-7 mt-10 bg-gray-200 rounded-xl p-8  ">
-        <h1 className=" text-2xl font-bold tracking-wider lg:text-center">
-          {place.title}
-        </h1>
-        <a
-          target="_blank"
-          href={"https://maps.google.com/?q=" + place.address}
-          className="text-lg  underline"
-        >
-          <div className="flex mt-3 lg:justify-center gap-2 w-full text-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-              />
-            </svg>
-            {place.address}
-          </div>
-        </a>
-        <div className="relative">
-          <div className="grid gap-2 grid-cols-4 grid-rows-2 mx-auto lg:max-w-7xl mt-4">
-            <div className="col-span-2 row-span-2">
-              {addedPhotos?.[0] && (
-                <img
-                  src={myConst.BACKEND_URL + "uploads/" + addedPhotos[0]}
-                  alt=""
-                  srcset=""
-                  onClick={() => setShowAllPhotos(true)}
-                  className="cursor-pointer aspect-square object-cover rounded-tl-xl rounded-bl-2xl"
-                />
-              )}
-            </div>
-
-            <div>
-              {addedPhotos?.[1] && (
-                <img
-                  src={myConst.BACKEND_URL + "uploads/" + addedPhotos[1]}
-                  alt=""
-                  srcset=""
-                  onClick={() => setShowAllPhotos(true)}
-                  className="cursor-pointer aspect-square object-cover"
-                />
-              )}
-            </div>
-            <div>
-              {addedPhotos?.[2] && (
-                <img
-                  src={myConst.BACKEND_URL + "uploads/" + addedPhotos[2]}
-                  alt=""
-                  srcset=""
-                  onClick={() => setShowAllPhotos(true)}
-                  className="cursor-pointer aspect-square object-cover rounded-tr-2xl"
-                />
-              )}
-            </div>
-            <div>
-              {addedPhotos?.[3] && (
-                <img
-                  src={myConst.BACKEND_URL + "uploads/" + addedPhotos[3]}
-                  alt=""
-                  srcset=""
-                  onClick={() => setShowAllPhotos(true)}
-                  className="cursor-pointer aspect-square object-cover"
-                />
-              )}
-            </div>
-            <div>
-              {addedPhotos?.[4] && (
-                <img
-                  src={myConst.BACKEND_URL + "uploads/" + addedPhotos[4]}
-                  alt=""
-                  srcset=""
-                  onClick={() => setShowAllPhotos(true)}
-                  className="cursor-pointer aspect-square object-cover rounded-br-2xl"
-                />
-              )}
-            </div>
-
-            <div className="absolute right-2 bottom-2 lg:right-36 lg:bottom-4 ">
-              <button
-                onClick={() => setShowAllPhotos(true)}
-                className="bg-white rounded-lg py-2 px-3 flex gap-2 hover:scale-90 transition-all hover:bg-gray-100 shadow shadow-gray-500"
+        <div className="max-w-screen-xl m-auto">
+          <h1 className=" text-2xl font-bold tracking-wider lg:text-center">
+            {place.title}
+          </h1>
+          <a
+            target="_blank"
+            href={"https://maps.google.com/?q=" + place.address}
+            className="text-lg  underline"
+          >
+            <div className="flex mt-3 lg:justify-center gap-2 w-full text-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                />
+              </svg>
+              {place.address}
+            </div>
+          </a>
+          <div className="relative">
+            <div className="grid gap-2 grid-cols-4 grid-rows-2 mx-auto lg:max-w-7xl mt-4">
+              <div className="col-span-2 row-span-2">
+                {addedPhotos?.[0] && (
+                  <img
+                    src={myConst.BACKEND_URL + "uploads/" + addedPhotos[0]}
+                    alt=""
+                    srcset=""
+                    onClick={() => setShowAllPhotos(true)}
+                    className="cursor-pointer aspect-square object-cover rounded-tl-xl rounded-bl-2xl"
                   />
-                </svg>
-                <span>Show more</span>
-              </button>
-            </div>
-          </div>
-        </div>
+                )}
+              </div>
 
-        <div className="flex  items-center justify-center lg:justify-around mt-6 mb-6 lg:gap-24">
-          <div>
-            <div className="my-5 max-w-sm lg:max-w-md">
-              <h2 className="font-semibold text-xl mb-1 ">Description</h2>
-              <span className="text-sm lg:text-lg grow ">
-                {place.descreption}
-              </span>
+              <div>
+                {addedPhotos?.[1] && (
+                  <img
+                    src={myConst.BACKEND_URL + "uploads/" + addedPhotos[1]}
+                    alt=""
+                    srcset=""
+                    onClick={() => setShowAllPhotos(true)}
+                    className="cursor-pointer aspect-square object-cover"
+                  />
+                )}
+              </div>
+              <div>
+                {addedPhotos?.[2] && (
+                  <img
+                    src={myConst.BACKEND_URL + "uploads/" + addedPhotos[2]}
+                    alt=""
+                    srcset=""
+                    onClick={() => setShowAllPhotos(true)}
+                    className="cursor-pointer aspect-square object-cover rounded-tr-2xl"
+                  />
+                )}
+              </div>
+              <div>
+                {addedPhotos?.[3] && (
+                  <img
+                    src={myConst.BACKEND_URL + "uploads/" + addedPhotos[3]}
+                    alt=""
+                    srcset=""
+                    onClick={() => setShowAllPhotos(true)}
+                    className="cursor-pointer aspect-square object-cover"
+                  />
+                )}
+              </div>
+              <div>
+                {addedPhotos?.[4] && (
+                  <img
+                    src={myConst.BACKEND_URL + "uploads/" + addedPhotos[4]}
+                    alt=""
+                    srcset=""
+                    onClick={() => setShowAllPhotos(true)}
+                    className="cursor-pointer aspect-square object-cover rounded-br-2xl"
+                  />
+                )}
+              </div>
+
+              <div className="absolute right-2 bottom-2 lg:right-36 lg:bottom-4 ">
+                <button
+                  onClick={() => setShowAllPhotos(true)}
+                  className="bg-white rounded-lg py-2 px-3 flex gap-2 hover:scale-90 transition-all hover:bg-gray-100 shadow shadow-gray-500"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
+                    />
+                  </svg>
+                  <span>Show more</span>
+                </button>
+              </div>
             </div>
+          </div>
+
+          <div className="flex mt-6 mb-6  justify-between">
             <div>
-              Check in : {place.checkIn}
-              <br />
-              Check out : {place.checkOut}
-              <br />
-              Max guest : {place.maxGuests}
+              <div className="mb-4 text-justify mr-5">
+                <h2 className="font-semibold text-xl mb-1 ">Description</h2>
+                <span className="text-lg  ">
+                  {place.descreption}
+                </span>
+              </div>
+              <div>
+                Check in : {place.checkIn}
+                <br />
+                Check out : {place.checkOut}
+                <br />
+                Max guest : {place.maxGuests}
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl flex-col flex  my-2  justify-center text-lg px-12 py-10 gap-1 grow">
+              <div className="lg:w-96 md:w-72">
+                <span>Price : {place.price} / Per night</span>
+                <div className="border rounded-xl mt-1 px-2 py-1">
+                  <div>
+                    <label>Check in : </label>
+                    <input
+                      value={checkIn}
+                      onChange={(ev) => setCheckIn(ev.target.value)}
+                      type="date"
+                      name=""
+                      id=""
+                    />
+                  </div>
+
+                  <div>
+                    <label>Check in : </label>
+                    <input
+                      value={checkOut}
+                      onChange={(ev) => setCheckOut(ev.target.value)}
+                      type="date"
+                      name=""
+                      id=""
+                    />
+                  </div>
+                </div>
+                <div className="border rounded-xl mt-1 px-2 py-1">
+                  <label>Number of guest : </label>
+                  <input
+                    value={guest}
+                    onChange={(ev) => setGuest(ev.target.value)}
+                    type="number"
+                    name=""
+                    id=""
+                  />
+                </div>
+                <div className="border rounded-xl mt-1 px-2 py-1">
+                  <label>Enter full name : </label>
+                  <input
+                    value={name}
+                    onChange={(ev) => setName(ev.target.value)}
+                    type="text"
+                    name=""
+                    id=""
+                  />
+                </div>
+                <div className="border rounded-xl mt-1 px-2 py-1">
+                  <label>Enter Mobile number : </label>
+                  <input
+                    value={mobile}
+                    onChange={(ev) => setMobile(ev.target.value)}
+                    type="tel"
+                    name=""
+                    id=""
+                  />
+                </div>
+                <div className="flex items-center justify-center mt-4 gap-3">
+                  <span>
+                    Total Price :{" "}
+                    {numberOfDays > 0 && <>{numberOfDays * place.price}</>}
+                  </span>
+                  <button
+                    onClick={bookThisPlace}
+                    className="bg-primary rounded-2xl px-2 py-1 mt-1 mb-2"
+                  >
+                    Book Now
+                  </button>
+                </div>
+                {checkIn && checkOut && <>{}</>}
+              </div>
             </div>
           </div>
-          <div className="bg-white rounded-2xl flex-col flex  my-2 mx-4 justify-center text-lg px-8 py-4">
-            <span>Price : {place.price} / Per night</span>
-            <div className="border rounded-xl mt-1 px-2 py-1">
-              <label>Check in : </label>
-              <input
-                value={checkIn}
-                onChange={(ev) => setCheckIn(ev.target.value)}
-                type="date"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="border rounded-xl mt-1 px-2 py-1">
-              <label>Check in : </label>
-              <input
-                value={checkOut}
-                onChange={(ev) => setCheckOut(ev.target.value)}
-                type="date"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="border rounded-xl mt-1 px-2 py-1">
-              <label>Number of guest : </label>
-              <input
-                value={guest}
-                onChange={(ev) => setGuest(ev.target.value)}
-                type="number"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="border rounded-xl mt-1 px-2 py-1">
-              <label>Enter full name : </label>
-              <input
-                value={name}
-                onChange={(ev) => setName(ev.target.value)}
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="border rounded-xl mt-1 px-2 py-1">
-              <label>Enter Mobile number : </label>
-              <input
-                value={mobile}
-                onChange={(ev) => setMobile(ev.target.value)}
-                type="tel"
-                name=""
-                id=""
-              />
-            </div>
-            <span>
-              Total Price :{" "}
-              {numberOfDays > 0 && <>{numberOfDays * place.price}</>}
-            </span>
-            <button onClick={bookThisPlace} className="bg-primary rounded-2xl px-2 py-1 mt-1 mb-2">
-              Book Now
-            </button>
-            {checkIn && checkOut && <>{}</>}
+          <div className="">
+            <h2 className="font-semibold text-xl my-1 ">Extra information</h2>
+            {place.extraInfo}
           </div>
-        </div>
-        <div className="lg:w-5/6 mx-auto">
-          <h2 className="font-semibold text-xl my-1 ">Extra information</h2>
-          {place.extraInfo}
         </div>
       </div>
     </>

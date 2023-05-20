@@ -41,7 +41,7 @@ export default function AccountNav() {
           </svg>
           My account
         </Link>
-        <Link className={linkClasses("bookings")} to={"/account/booking"}>
+        <Link className={linkClasses("booking")} to={"/account/booking"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

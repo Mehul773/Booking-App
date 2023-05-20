@@ -17,6 +17,7 @@ export default function IndexPage() {
           <>
             <Link to={"/place/"+place._id} className=" p-3 flex flex-col gap-1 cursor-pointer">
               <div className="h-60 overflow-hidden rounded-lg">
+                
                 <img
                   src={myConst.BACKEND_URL + "uploads/" + place.photos[0]}
                   alt="img"

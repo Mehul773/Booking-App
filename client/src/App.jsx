@@ -7,10 +7,10 @@ import Register from "./pages/Register";
 import axios from "axios";
 import { UserContextProvider } from "./UserContext";
 import ProfilePage from "./pages/ProfilePage";
-import PlacesPage from "./pages/PlacesPage";
+import MyPlacesPage from "./pages/MyPlacesPage";
 import PlacesFormPage from "./pages/PlacesFormPage";
 import PlaceDetails from "./pages/PlaceDetails";
-import BookingPage from "./pages/BookingPage";
+// import BookingPage from "./pages/BookingPage";
 import AllBooking from "./pages/AllBooking";
 
 axios.defaults.baseURL = "http://localhost:4000/";
@@ -22,16 +22,16 @@ function App() {
       <UserContextProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<IndexPage />} />
+            <Route index element={<IndexPage />} /> 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/account" element={<ProfilePage />} /> 
-            <Route path="/account/places" element={<PlacesPage />} />
-            {/* <Route path="/account/booking" element={<PlacesPage />} /> */}
+            <Route path="/account/places" element={<MyPlacesPage />} />
+            {/* <Route path="/account/booking" element={<MyPlacesPage />} /> */}
             <Route path="/account/places/new" element={<PlacesFormPage />} />
             <Route path="/account/places/:id" element={<PlacesFormPage />} />
             <Route path="/place/:id" element={<PlaceDetails/>} />
-            <Route path="/account/booking/:id" element={<BookingPage/>} />
+            {/* <Route path="/account/booking/:id" element={<BookingPage/>} /> */}
             <Route path="/account/booking" element={<AllBooking/>} />
 
           </Route>

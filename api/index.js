@@ -250,7 +250,7 @@ function getUserDataFromReq(req) {
 
 app.get("/booking", async (req, res) => {
   const userData = await getUserDataFromReq(req);
-  res.json(await Booking.find({ user: userData.id }));
+  res.json(await Booking.find({ user: userData.id }).populate('place'));
 });
 
 app.listen(4000);
