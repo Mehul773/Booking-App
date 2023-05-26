@@ -6,24 +6,26 @@ import { UserContext } from "../UserContext";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect,setRedirect] = useState(false);
-  const {setUser}=useContext(UserContext);
+  const [redirect, setRedirect] = useState(false);
+  const { setUser } = useContext(UserContext);
 
   async function handleLoginsubmit(ev) {
     ev.preventDefault();
     try {
-      const {data} = await axios.post("/login", { email, password },{withCredentials:true});
-      setUser(data)
-      alert('Login Successfull')
+      const { data } = await axios.post(
+        "/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      setUser(data);
+      alert("Login Successfull");
       setRedirect(true);
     } catch (error) {
-      alert('Login failed')
+      alert("Login failed");
     }
-
   }
-  if(redirect)
-  {
-    return <Navigate to={'/'}/>
+  if (redirect) {
+    return <Navigate to={"/"} />;
   }
   return (
     <div className="mt-4 grow flex items-center justify-around">

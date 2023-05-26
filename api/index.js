@@ -17,6 +17,8 @@ const { resolve } = require("path");
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "ohmymy";
 
+app.listen(4000);
+
 app.use(express.json()); //json parse karava mate
 app.use(cookieParser()); //express ma cokkie read karava mate aa jaruri 6e
 // console.log(__dirname+'/uploads');
@@ -253,4 +255,3 @@ app.get("/booking", async (req, res) => {
   res.json(await Booking.find({ user: userData.id }).populate('place'));
 });
 
-app.listen(4000);
