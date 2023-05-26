@@ -16,8 +16,8 @@ const { resolve } = require("path");
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "ohmymy";
-
-app.listen(4000);
+const PORT = process.env.PORT || 4000
+app.listen(PORT);
 
 app.use(express.json()); //json parse karava mate
 app.use(cookieParser()); //express ma cokkie read karava mate aa jaruri 6e
