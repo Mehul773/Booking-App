@@ -28,7 +28,7 @@ app.use(
     //cors ni error no ave etale
     credentials: true,
     // origin: "http://localhost:5173",
-    origin: "https://6470eb830f246904a7ce583a--splendid-lamington-d43e2a.netlify.app/",
+    origin: "https://splendid-lamington-d43e2a.netlify.app/",
   })
 );
 
