@@ -13,7 +13,8 @@ import PlaceDetails from "./pages/PlaceDetails";
 // import BookingPage from "./pages/BookingPage";
 import AllBooking from "./pages/AllBooking";
 
-axios.defaults.baseURL = "http://localhost:4000/";
+// axios.defaults.baseURL = "http://localhost:4000/";
+axios.defaults.baseURL = "https://booking-app-backend2.onrender.com";
 axios.defaults.withCredentials = true;
 
 function App() {
